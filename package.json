@@ -1,0 +1,17 @@
+{
+  "name": "crud-nodejs",
+  "version": "1.0.0",
+  "main": "crud.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon crud.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
