@@ -44,75 +44,33 @@ const users = [
   },
 ];
 
-const properties = [
-  {
-    id: 0,
-    proprietario: "Alessandro Oliver Andrade",
-    nome_casa: "residencial multfamiliar",
-    endereco: "Nova vitoria,80 - Zona Leste",
-    contato: "92992232715",
-    status: "Em negociação",
-    valor_imovel: "100000",
-    valor_compra: "150000",
-    comissao: "20",
-    descricao:
-      "250m²: 2 quartos sendo 1 suíte, garagem para 2 carros, banheiro social e área gourmet",
-  },
-  {
-    id: 1,
-    proprietario: "Mateus de Santos Cunha",
-    nome_casa: "residencia familiar",
-    endereco: "Av Autaz Mirim , 70 - Distrito 2",
-    contato: "92992233715",
-    status: "Disponível",
-    valor_imovel: "100000",
-    valor_compra: "150000",
-    comissao: "10",
-    descricao:
-      "270m²: 3 quartos sendo 2 suítes, garagem para 4 carros, banheiro social, piscina e área gourmet",
-  },
-  {
-    id: 2,
-    proprietario: "Rosana Silva Lira",
-    nome_casa: "duplex",
-    endereco: "Armando Mendes,50 - Distrito 1",
-    contato: "92992233715",
-    status: "Vendido",
-    valor_imovel: "270000",
-    valor_compra: "160000",
-    comissao: "70",
-    descricao:
-      "300m²: 2 quartos e 1 suíte, banheiro social, garagem para 1 carro, escritório",
-  },
-];
-
 const pedidos = [
   {
     id: 0,
-    nome_fornecedor: "Alessandro Oliver Andrade",
-    data_pedido: "residencial multfamiliar",
-    nome_produto: "Nova vitoria,80 - Zona Leste",
-    quantidade: "92992232715",
-    valor_total: "Em negociação",
-    status_pedido: "100000",
+    nome_fornecedor: "dasmasceno speed",
+    data_pedido: "31/12/2024",
+    nome_produto: "produto teste A",
+    quantidade: 10,
+    valor_total: "238,00",
+    status_pedido: "em andamento",
   },
   {
     id: 1,
     nome_fornecedor: "Alessandro Oliver Andrade",
-    data_pedido: "residencial multfamiliar",
-    nome_produto: "Nova vitoria,80 - Zona Leste",
-    quantidade: "92992232715",
-    valor_total: "Em negociação",
-    status_pedido: "100000",
+    data_pedido: "31/12/2024",
+    nome_produto: "agricula",
+    quantidade: 5,
+    valor_total: "100,00",
+    status_pedido: "concluido",
   },
   {
     id: 2,
-    nome_fornecedor: "Alessandro Oliver Andrade",
-    data_pedido: "residencial multfamiliar",
-    nome_produto: "Nova vitoria,80 - Zona Leste",
-    quantidade: "92992232715",
-    valor_total: "Em negociação",
-    status_pedido: "100000",
+    nome_fornecedor: "Carlos mult andrade",
+    data_pedido: "31/12/2024",
+    nome_produto: "bicicleta",
+    quantidade: "15",
+    valor_total: "5000",
+    status_pedido: "em andamento",
   },
 ];
 
@@ -229,90 +187,77 @@ server.post("/login/users", (req, res) => {
   }
 });
 
-// 03-  CRUD DE IMOVEIS
+// 03-  CRUD DE PEDIDOS
+server.get("/orders", (req, res) => {
+  let orders = pedidos.reduce((list, sub) => list.concat(sub), []);
+  return res.json(orders);
+}); // rota para listar todos os pedidos
 
-server.get("/imoveis", (req, res) => {
-  let imoveis = properties.reduce((list, sub) => list.concat(sub), []);
-  return res.json(imoveis);
-}); // rota para listar todos os Imoveis
-
-server.post("/imoveis", (req, res) => {
+server.post("/orders", (req, res) => {
   const {
-    proprietario,
-    nome_casa,
-    endereco,
-    contato,
-    status,
-    valor_imovel,
-    valor_compra,
-    comissao,
-    descricao,
+    nome_fornecedor,
+    data_pedido,
+    nome_produto,
+    quantidade,
+    valor_total,
+    status_pedido,
   } = req.body;
 
-  let ultimo = properties[properties.length - 1];
+  let ultimo = pedidos[pedidos.length - 1];
   let id_numnber = ultimo.id;
 
-  const imoveis_registers = {
+  const orders_registers = {
     id: id_numnber + 1,
-    proprietario,
-    nome_casa,
-    endereco,
-    contato,
-    status,
-    valor_imovel,
-    valor_compra,
-    comissao,
-    descricao,
+    nome_fornecedor,
+    data_pedido,
+    nome_produto,
+    quantidade,
+    valor_total,
+    status_pedido,
   };
-  properties.push(imoveis_registers);
-  return res.json(properties); // retorna a informação da variavel properties
+  pedidos.push(orders_registers);
+  return res.json(pedidos); // retorna a informação da variavel pedidos
 });
 
-server.put("/imoveis/:id", (req, res) => {
+server.put("/orders/:id", (req, res) => {
   const { id } = req.params; // recupera o index com os dados
   const {
-    proprietario,
-    nome_casa,
-    endereco,
-    contato,
-    status,
-    valor_imovel,
-    valor_compra,
-    comissao,
-    descricao,
+    nome_fornecedor,
+    data_pedido,
+    nome_produto,
+    quantidade,
+    valor_total,
+    status_pedido,
   } = req.body;
 
   const id_number = parseInt(id);
 
   const result = {
     id: id_number,
-    proprietario,
-    nome_casa,
-    endereco,
-    contato,
-    status,
-    valor_imovel,
-    valor_compra,
-    comissao,
-    descricao,
+    nome_fornecedor,
+    data_pedido,
+    nome_produto,
+    quantidade,
+    valor_total,
+    status_pedido,
   };
 
-  properties[id] = result; // sobrepõe/edita o index obtido na rota de acordo com o novo valor
+  pedidos[id] = result; // sobrepõe/edita o index obtido na rota de acordo com o novo valor
 
-  return res.json(properties);
-}); // retorna novamente os properties atualizados após o update
+  return res.json(pedidos);
+}); // retorna novamente os pedidos atualizados após o update
 
-server.delete("/imoveis/:id", (req, res) => {
+server.delete("/orders/:id", (req, res) => {
   const { id } = req.params; // recupera o id com os dados
 
   const id_number = parseInt(id);
 
   const idParaRemover = id_number; // o id que queremos remover
-  const indexParaRemover = properties.findIndex(
+  const indexParaRemover = pedidos.findIndex(
     (propriedade) => propriedade.id === idParaRemover
   );
   if (indexParaRemover !== -1) {
-    properties.splice(indexParaRemover, 1);
+    pedidos.splice(indexParaRemover, 1);
   }
 
   return res.send({ sucesso: "excluido com sucesso", id_number });
